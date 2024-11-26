@@ -798,9 +798,9 @@ $_GET['id'] = 1;
 																	
 
 																														<!-- Teeth Selection -->
-																														<form>
+																														<form method="POST" action="teeth_submit.php">
 																														<h3 id="teethLabel" style="margin-left:50px; display: none;margin-top:320px;">Select Teeth</h3>
-																														<select id="teethSelect" style="margin-left:40px;border:#000000 2px solid;width:148px;height:33px;border-radius:10px;color:#000000;text-align:center;display:none;flex-direction:row;align-items:center;justify-content:center;background:none;font-family:Roboto;font-size:12px;font-weight:bold;" disabled>
+																														<select id="teethSelect" name="tooth_number"  style="margin-left:40px;border:#000000 2px solid;width:148px;height:33px;border-radius:10px;color:#000000;text-align:center;display:none;flex-direction:row;align-items:center;justify-content:center;background:none;font-family:Roboto;font-size:12px;font-weight:bold;" required disabled>
 																														  <option value="" disabled selected>Select Teeth</option>
 																														  <?php
 																																// Display all 32 teeth options regardless of whether the patient has records
@@ -809,15 +809,15 @@ $_GET['id'] = 1;
 																																}
 																																?>
 																														</select>
-																															<input type="date" id="todayDate" style="display:none;" value="" />
-																															<script>
-																															  document.getElementById('todayDate').value = new Date().toISOString().split('T')[0];
-																															</script>
+																															<input type="date" id="todayDate" name="date" style="display:none;" value="" />
+																																<script>
+																																	document.getElementById('todayDate').value = new Date().toISOString().split('T')[0];
+																																</script>
 
 																														<!-- Issue Selection -->
 																														
 																														<h3 id="issueLabel" style="margin-left:50px; display: none;">Select Issue</h3>
-																														<select id="issueSelect" style="margin-left:40px;border:#000000 2px solid;width:148px;height:33px;border-radius:10px;color:#000000;text-align:center;display:none;flex-direction:row;align-items:center;justify-content:center;background:none;font-family:Roboto;font-size:12px;font-weight:bold;" onchange="toggleOtherInput()" disabled>
+																														<select id="issueSelect" name="issue" style="margin-left:40px;border:#000000 2px solid;width:148px;height:33px;border-radius:10px;color:#000000;text-align:center;display:none;flex-direction:row;align-items:center;justify-content:center;background:none;font-family:Roboto;font-size:12px;font-weight:bold;" onchange="toggleOtherInput()" disabled required>
 																														  <option value="" disabled selected>Select Issue</option>
 																														  <option value="decay">Decay</option>
 																														  <option value="missing">Missing</option>
@@ -826,23 +826,23 @@ $_GET['id'] = 1;
 																														  <option value="none">None</option>
 																														</select>
 
-																														<div id="otherInputDiv" style="background:grey; width:200px;height:40px;position:absolute;left:40px;display:none;align-items:center;background:none;">
-																														  <input type="text" placeholder="Other..">
-																														</div>
+																														 <div id="otherInputDiv" style="background:grey; width:200px;height:40px;position:absolute;left:40px;display:none;align-items:center;background:none;">
+        <input type="text" placeholder="Other.." name="other" id="otherInput" />
+    </div>
 
-																														<script>
-																														function toggleOtherInput() {
-																														  var selectElement = document.getElementById("issueSelect");
-																														  var otherInputDiv = document.getElementById("otherInputDiv");
+    <script>
+        function toggleOtherInput() {
+            var selectElement = document.getElementById("issueSelect");
+            var otherInputDiv = document.getElementById("otherInputDiv");
 
-																														  // Show the input field if "other" is selected, otherwise hide it
-																														  if (selectElement.value === "other") {
-																															otherInputDiv.style.display = "flex";
-																														  } else {
-																															otherInputDiv.style.display = "none";
-																														  }
-																														}
-																														</script>
+            // Show the input field if "other" is selected, otherwise hide it
+            if (selectElement.value === "other") {
+                otherInputDiv.style.display = "flex";
+            } else {
+                otherInputDiv.style.display = "none";
+            }
+        }
+    </script>
 
 
 																														
@@ -889,7 +889,7 @@ $_GET['id'] = 1;
 																					<text id="lbl1" transform="matrix(1 0 0 1 93.9767 324.769)" font-family="'Avenir-Heavy'" font-size="21px">1</text>
 																				</g>
 																				<g id="dmftLabels">
-																					<text id="txtTooth32" transform="matrix(1 0 0 1 5.0001 386.3778)" font-family="'MyriadPro-Regular'" font-size="16px">D</text>
+																					<text id="txtTooth32" transform="matrix(1 0 0 1 5.0001 386.3778)" font-family="'MyriadPro-Regular'" font-size="16px"></text>
 																					<text id="txtTooth31" transform="matrix(1 0 0 1 0.9998 449.7374)" font-family="'MyriadPro-Regular'" font-size="16px"></text>
 																					<text id="txtTooth30" transform="matrix(1 0 0 1 9.6668 513.5912)" font-family="'MyriadPro-Regular'" font-size="16px"></text>
 																					<text id="txtTooth29" transform="matrix(1 0 0 1 36.3335 578.2579)" font-family="'MyriadPro-Regular'" font-size="16px"></text>
@@ -1210,15 +1210,14 @@ $_GET['id'] = 1;
 																				</svg>
 																				</div>
 																	</div>	<br>
-																	<button id="saveBtn" style="margin-left:45px;margin-top:60px;background:none;border-radius:5px;border-color:blue;color:blue;font-weight:bold; display: none;">Save</button><br>
-																	<button id="cancelBtn" style="margin-left:45px;margin-top:20px;background:none;border-radius:5px;border-color:red;color:red;font-weight:bold; display: none;" onclick="window.location.reload();">Cancel</button>
+																	<button type="submit" id="saveBtn" style="margin-left:45px;margin-top:60px;background:none;border-radius:5px;border-color:blue;color:blue;font-weight:bold;display:none;">Save</button>
+																	<br>
+																	<button id="cancelBtn" type="button" style="margin-left:45px;margin-top:20px;background:none;border-radius:5px;border-color:red;color:red;font-weight:bold;display:none;" onclick="window.location.reload();">Cancel</button>
 																	<div class="align" style="margin-top:50px;">
-																	
-																	  <span style="margin-left:7px;font-family:Roboto;font-size:12px;font-weight:bold;">Note:</span>
-																	  <input id="noteInput" type="text" style="width:400px; height:200px;" disabled>
-																	  
-																	</div>
-																	</form>
+        <span style="margin-left:7px;font-family:Roboto;font-size:12px;font-weight:bold;">Note:</span>
+        <input id="noteInput" name="note" type="text" style="width:400px; height:200px;" disabled>
+    </div>
+</form>
 																	<script>
 // Get the button, select elements, and labels
 const editButton = document.getElementById('editButton');
