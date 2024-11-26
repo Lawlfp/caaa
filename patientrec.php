@@ -11,35 +11,64 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+$sql = "SELECT `tooth_number`, `issue` FROM `teeth`";
+$result = $conn->query($sql);
 
-$patientid = $_GET['patientid'];  // Assuming you pass the patient ID via URL or other method
-
-// Query to fetch teeth data
-$query = "SELECT `id`, `patientid`, `tooth_number`, `issue` FROM `teeth` WHERE `patientid` = '$patientid'";
-$result = $conn->query($query);
-
-// Check if the query returns any results
-$teethData = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $teethData[] = $row;
-    }
-}
-
-// Define colors based on the issue
-$issueColors = [
+$colors = array(
     'decay' => 'yellow',
     'missing' => 'black',
     'filled' => 'grey',
     'other' => 'lightgreen',
-    'none' => 'none' // Default color if no issue is set
-];
+    'none' => 'transparent' // Assuming "none" should use the default fill
+);
+
+$toothData = array();
+
+// Fetch the result
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $toothData[] = array(
+            'tooth_number' => $row['tooth_number'],
+            'color' => isset($colors[$row['issue']]) ? $colors[$row['issue']] : 'transparent'
+        );
+    }
+} else {
+    echo "No data found!";
+}
+$conn->close();
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script type="text/javascript">
+    // Array of tooth data passed from PHP
+    var toothData = <?php echo json_encode($toothData); ?>;
+
+    // Function to change the color of the polygon based on the tooth number
+    function changeToothColor() {
+        // Loop through the tooth data and apply the color to the corresponding polygon
+        toothData.forEach(function(tooth) {
+            var toothNumber = tooth.tooth_number;
+            var color = tooth.color;
+
+            // Format the ID of the polygon to match 'Tooth1', 'Tooth2', ..., 'Tooth32'
+            var polygonId = 'Tooth' + toothNumber;
+
+            // Find the SVG polygon element with the corresponding id
+            var polygon = document.getElementById(polygonId);
+
+            // If the polygon exists, change its fill color
+            if (polygon) {
+                polygon.setAttribute('fill', color);
+            }
+        });
+    }
+
+    // Run the function when the page is loaded
+    window.onload = changeToothColor;
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Split Centered Container</title>
@@ -1257,18 +1286,6 @@ editButton.addEventListener('click', function() {
 		
 		
     </div>
-	<?php
-    // Apply dynamic coloring based on fetched data
-    foreach ($teethData as $teethRecord) {
-        $toothNumber = $teethRecord['tooth_number'];
-        $issue = $teethRecord['issue'];
-        $color = isset($issueColors[$issue]) ? $issueColors[$issue] : 'none'; 
-
-        // JavaScript to dynamically color the tooth polygon
-        echo "<script>
-                document.getElementById('tooth_$toothNumber').style.fill = '$color';
-              </script>";
-    }
-    ?>
+	
 </body>
 </html>
