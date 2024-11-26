@@ -1,3 +1,42 @@
+<?php
+// Establish connection using mysqli
+$servername = "localhost"; // e.g., "localhost"
+$username = "root";
+$password = "";
+$dbname = "dbdental";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$patientid = $_GET['patientid'];  // Assuming you pass the patient ID via URL or other method
+
+// Query to fetch teeth data
+$query = "SELECT `id`, `patientid`, `tooth_number`, `issue` FROM `teeth` WHERE `patientid` = '$patientid'";
+$result = $conn->query($query);
+
+// Check if the query returns any results
+$teethData = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $teethData[] = $row;
+    }
+}
+
+// Define colors based on the issue
+$issueColors = [
+    'decay' => 'yellow',
+    'missing' => 'black',
+    'filled' => 'grey',
+    'other' => 'lightgreen',
+    'none' => 'none' // Default color if no issue is set
+];
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -413,6 +452,7 @@ margin-left:35px;
     fill:#dddddd !important;
   }
 }
+
     </style>
 </head>
 <body>
@@ -701,14 +741,21 @@ $_GET['id'] = 1;
 																	<!-- <div class="align" style="margin-top:50px;border:#4182F1 2px solid;width:148px;height:33px;border-radius:10px;color:#4182F1;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-family:Roboto;font-size:12px;font-weight:bold;">+ Add new history</span>
 																				
 																	</div> -->	
-																	<div style="width:200px;height:80px;"></div>
+																	<div style="width:500px;height:300px;border:d 1px solid;background:#F8F8F8;margin-left:30px;border-radius:20px;position:absolute;top;display:flex;flex-direction:column;">
+																	
+																	<span style="margin-left:20px;margin-top:20px;font-weight:bold">-Updated at 11/16/2024</span>
+																	<span style="margin-left:20px;margin-top:10px;">Teeth Number:6</span>
+																	<span style="margin-left:20px;">Issue:Other</span>	
+																	<span style="margin-left:20px;"></span>	
+																	
+																	</div>
 																	
 																	
-																	<div style="width:100px;height:40px;"></div>
+																	
 																	<button 
 																		  id="editButton" 
 																		  class="align" 
-																		  style="margin-top: 28px; border: 2px solid #009688; width: 148px; height: 33px; border-radius: 10px; background-color: white; color: #009688; text-align: center; display: flex; align-items: center; justify-content: center; cursor: pointer; font-family: Roboto, sans-serif; font-size: 12px; font-weight: bold;"
+																		  style="margin-top: 328px; border: 2px solid #009688; width: 148px; height: 33px; border-radius: 10px; background-color: white; color: #009688; text-align: center; display: flex; align-items: center; justify-content: center; cursor: pointer; font-family: Roboto, sans-serif; font-size: 12px; font-weight: bold;"
 																		>
 																		  <img src="edit.png" alt="Edit Icon" style="width: 20px; height: 20px; margin-right: 7px;">
 																		  Edit
@@ -723,41 +770,15 @@ $_GET['id'] = 1;
 
 																														<!-- Teeth Selection -->
 																														<form>
-																														<h3 id="teethLabel" style="margin-left:50px; display: none;">Select Teeth</h3>
+																														<h3 id="teethLabel" style="margin-left:50px; display: none;margin-top:320px;">Select Teeth</h3>
 																														<select id="teethSelect" style="margin-left:40px;border:#000000 2px solid;width:148px;height:33px;border-radius:10px;color:#000000;text-align:center;display:none;flex-direction:row;align-items:center;justify-content:center;background:none;font-family:Roboto;font-size:12px;font-weight:bold;" disabled>
 																														  <option value="" disabled selected>Select Teeth</option>
-																														  <option value="1">1</option>
-																														  <option value="2">2</option>
-																														  <option value="3">3</option>
-																														  <option value="4">4</option>
-																														  <option value="5">5</option>
-																														  <option value="6">6</option>
-																														  <option value="7">7</option>
-																														  <option value="8">8</option>
-																														  <option value="9">9</option>
-																														  <option value="10">10</option>
-																														  <option value="11">11</option>
-																														  <option value="12">12</option>
-																														  <option value="13">13</option>
-																														  <option value="14">14</option>
-																														  <option value="15">15</option>
-																														  <option value="16">16</option>
-																														  <option value="17">17</option>
-																														  <option value="18">18</option>
-																														  <option value="19">19</option>
-																														  <option value="20">20</option>
-																														  <option value="21">21</option>
-																														  <option value="22">22</option>
-																														  <option value="23">23</option>
-																														  <option value="24">24</option>
-																														  <option value="25">25</option>
-																														  <option value="26">26</option>
-																														  <option value="27">27</option>
-																														  <option value="28">28</option>
-																														  <option value="29">29</option>
-																														  <option value="30">30</option>
-																														  <option value="31">31</option>
-																														  <option value="32">32</option>
+																														  <?php
+																																// Display all 32 teeth options regardless of whether the patient has records
+																																for ($i = 1; $i <= 32; $i++) {
+																																	echo "<option value='$i'>$i</option>";
+																																}
+																																?>
 																														</select>
 																															<input type="date" id="todayDate" style="display:none;" value="" />
 																															<script>
@@ -765,8 +786,9 @@ $_GET['id'] = 1;
 																															</script>
 
 																														<!-- Issue Selection -->
+																														
 																														<h3 id="issueLabel" style="margin-left:50px; display: none;">Select Issue</h3>
-																														<select id="issueSelect" style="margin-left:40px;border:#000000 2px solid;width:148px;height:33px;border-radius:10px;color:#000000;text-align:center;display:none;flex-direction:row;align-items:center;justify-content:center;background:none;font-family:Roboto;font-size:12px;font-weight:bold;" disabled>
+																														<select id="issueSelect" style="margin-left:40px;border:#000000 2px solid;width:148px;height:33px;border-radius:10px;color:#000000;text-align:center;display:none;flex-direction:row;align-items:center;justify-content:center;background:none;font-family:Roboto;font-size:12px;font-weight:bold;" onchange="toggleOtherInput()" disabled>
 																														  <option value="" disabled selected>Select Issue</option>
 																														  <option value="decay">Decay</option>
 																														  <option value="missing">Missing</option>
@@ -774,8 +796,25 @@ $_GET['id'] = 1;
 																														  <option value="other">Other</option>
 																														  <option value="none">None</option>
 																														</select>
-																														
-																														
+
+																														<div id="otherInputDiv" style="background:grey; width:200px;height:40px;position:absolute;left:40px;display:none;align-items:center;background:none;">
+																														  <input type="text" placeholder="Other..">
+																														</div>
+
+																														<script>
+																														function toggleOtherInput() {
+																														  var selectElement = document.getElementById("issueSelect");
+																														  var otherInputDiv = document.getElementById("otherInputDiv");
+
+																														  // Show the input field if "other" is selected, otherwise hide it
+																														  if (selectElement.value === "other") {
+																															otherInputDiv.style.display = "flex";
+																														  } else {
+																															otherInputDiv.style.display = "none";
+																														  }
+																														}
+																														</script>
+
 
 																														
 
@@ -855,10 +894,10 @@ $_GET['id'] = 1;
 																					<text id="txtTooth1" transform="matrix(1 0 0 1 5.0001 338.4393)" font-family="'MyriadPro-Regular'" font-size="16px"></text>
 																				</g>
 																				<g id="Spots">
-																					<polygon id="Tooth32" fill="#E4FF69" data-key="32" points="66.7,369.7 59,370.3 51,373.7 43.7,384.3 42.3,392 38.7,406 41,415.3 44.3,420.3 
+																					<polygon id="Tooth32" fill="#FFFFFF" data-key="32" points="66.7,369.7 59,370.3 51,373.7 43.7,384.3 42.3,392 38.7,406 41,415.3 44.3,420.3 
 																						47.3,424 51.7,424.3 57.7,424 62.3,422.7 66.7,422.7 71,424.3 76.3,422.7 80.7,419.3 84.7,412.3 85.3,405 87.3,391.7 85,380 
 																						80.7,375 73.7,371.3 	"/>
-																					<polygon id="Tooth31" fill="#000000" data-key="31" points="76,425.7 80.3,427.7 83.3,433 85.3,447.7 84.3,458.7 79.7,472.3 73,475 50.3,479.7 
+																					<polygon id="Tooth31" fill="#FFFFFF" data-key="31" points="76,425.7 80.3,427.7 83.3,433 85.3,447.7 84.3,458.7 79.7,472.3 73,475 50.3,479.7 
 																						46.7,476.7 37.7,446.3 39.7,438.3 43.3,432 49,426.7 56,424.7 65,424.7 	"/>
 																					<polygon id="Tooth30" fill="#FFFFFF" data-key="30" points="78.7,476 85,481 90.3,488.3 96.3,499.3 97.7,511.3 93,522 86,526.3 67,533 
 																						60.3,529.7 56.3,523.7 51.7,511 47.7,494.7 47.7,488.3 50.3,483.3 55,479.7 67,476.7 	"/>
@@ -882,7 +921,7 @@ $_GET['id'] = 1;
 																						342.7,604 337.7,609 328,612.7 320,613.3 315,611 308.3,604.7 306.7,598 307.3,591.3 309,584.7 312.7,578.3 318.3,571.7 	"/>
 																					<polygon id="Tooth20" fill="#FFFFFF" data-key="20" points="334,561 338.7,566 346,570 354.7,573 360.7,571.7 368,568.3 383,545 385.3,532.7 
 																						381.3,524.3 374,520.7 363.7,516.3 356.3,515.3 351.3,518.3 346.3,524 340.3,534.3 336,546.7 	"/>
-																					<path id="Tooth19" fill="#E4FF69" data-key="19" d="M398,470l4.7,5.7l3,7.7l-0.3,11.7l-6,13.3l-6.3,10.3l-8.3,4.3l-7.3-1l-16.3-7c0,0-2.7-6-3-7.3
+																					<path id="Tooth19" fill="#FFFFFF" data-key="19" d="M398,470l4.7,5.7l3,7.7l-0.3,11.7l-6,13.3l-6.3,10.3l-8.3,4.3l-7.3-1l-16.3-7c0,0-2.7-6-3-7.3
 																						c-0.3-1.3-0.3-11-0.3-11l3.7-14.3l3.7-7l5.3-6.7l8-2l9.7-0.7L398,470z"/>
 																					<polygon id="Tooth18" fill="#FFFFFF" data-key="18" points="410,435 408.7,447.3 404.3,459 399.3,467.7 393.7,468 388,466 376.3,466.3 
 																						369.7,466.3 365.7,460 364.7,444.7 366.3,434.3 369,424 378.3,417.3 386.7,415.7 391.7,415.3 396,418 399.7,418 404,421.7 
@@ -1141,60 +1180,73 @@ $_GET['id'] = 1;
 																				</g>
 																				</svg>
 																				</div>
-																	</div>	
-																	<div class="align" style="margin-top:250px;">
+																	</div>	<br>
+																	<button id="saveBtn" style="margin-left:45px;margin-top:60px;background:none;border-radius:5px;border-color:blue;color:blue;font-weight:bold; display: none;">Save</button><br>
+																	<button id="cancelBtn" style="margin-left:45px;margin-top:20px;background:none;border-radius:5px;border-color:red;color:red;font-weight:bold; display: none;" onclick="window.location.reload();">Cancel</button>
+																	<div class="align" style="margin-top:50px;">
+																	
 																	  <span style="margin-left:7px;font-family:Roboto;font-size:12px;font-weight:bold;">Note:</span>
 																	  <input id="noteInput" type="text" style="width:400px; height:200px;" disabled>
+																	  
 																	</div>
 																	</form>
 																	<script>
-  // Get the button, select elements, and labels
-  const editButton = document.getElementById('editButton');
-  const teethSelect = document.getElementById('teethSelect');
-  const teethLabel = document.getElementById('teethLabel');
-  const issueSelect = document.getElementById('issueSelect');
-  const issueLabel = document.getElementById('issueLabel');
-  const noteInput = document.getElementById('noteInput');  // Note input field
-  const noteLabel = document.getElementById('noteLabel');  // Label for the note input
+// Get the button, select elements, and labels
+const editButton = document.getElementById('editButton');
+const teethSelect = document.getElementById('teethSelect');
+const teethLabel = document.getElementById('teethLabel');
+const issueSelect = document.getElementById('issueSelect');
+const issueLabel = document.getElementById('issueLabel');
+const noteInput = document.getElementById('noteInput');  // Note input field
+const noteLabel = document.getElementById('noteLabel');  // Label for the note input
+const saveBtn = document.getElementById('saveBtn');
+const cancelBtn = document.getElementById('cancelBtn');  // Cancel button
 
-  // Add event listener to the "Edit" button
-  editButton.addEventListener('click', function() {
-    // Toggle the disabled property of the select elements and the note input
-    teethSelect.disabled = !teethSelect.disabled;
-    issueSelect.disabled = !issueSelect.disabled;
-    noteInput.disabled = !noteInput.disabled; // Enable/Disable note input field
+// Add event listener to the "Edit" button
+editButton.addEventListener('click', function() {
+  // Toggle the disabled property of the select elements and the note input
+  teethSelect.disabled = !teethSelect.disabled;
+  issueSelect.disabled = !issueSelect.disabled;
+  noteInput.disabled = !noteInput.disabled; // Enable/Disable note input field
+  
+  // Show Save and Cancel buttons and hide Edit button
+  saveBtn.style.display = 'inline-block';
+  cancelBtn.style.display = 'inline-block'; // Make Cancel button visible
+  editButton.style.display = 'none';
 
-    // Toggle the visibility of the select elements and labels
-    if (teethSelect.disabled) {
-      teethSelect.style.opacity = "0.2"; // 20% opacity when disabled
-      teethSelect.style.display = "none"; // Hide the select when disabled
-      teethLabel.style.display = "none"; // Hide the label when disabled
-    } else {
-      teethSelect.style.opacity = "1"; // Full opacity when enabled
-      teethSelect.style.display = "inline-block"; // Show the select when enabled
-      teethLabel.style.display = "block"; // Show the label when enabled
-    }
+  // Toggle the visibility of the select elements and labels
+  if (teethSelect.disabled) {
+    teethSelect.style.opacity = "0.2"; // 20% opacity when disabled
+    teethSelect.style.display = "none"; // Hide the select when disabled
+    teethLabel.style.display = "none"; // Hide the label when disabled
+  } else {
+    teethSelect.style.opacity = "1"; // Full opacity when enabled
+    teethSelect.style.display = "inline-block"; // Show the select when enabled
+    teethLabel.style.display = "block"; // Show the label when enabled
+  }
 
-    if (issueSelect.disabled) {
-      issueSelect.style.opacity = "0.2"; // 20% opacity when disabled
-      issueSelect.style.display = "none"; // Hide the select when disabled
-      issueLabel.style.display = "none"; // Hide the label when disabled
-    } else {
-      issueSelect.style.opacity = "1"; // Full opacity when enabled
-      issueSelect.style.display = "inline-block"; // Show the select when enabled
-      issueLabel.style.display = "block"; // Show the label when enabled
-    }
+  if (issueSelect.disabled) {
+    issueSelect.style.opacity = "0.2"; // 20% opacity when disabled
+    issueSelect.style.display = "none"; // Hide the select when disabled
+    issueLabel.style.display = "none"; // Hide the label when disabled
+  } else {
+    issueSelect.style.opacity = "1"; // Full opacity when enabled
+    issueSelect.style.display = "inline-block"; // Show the select when enabled
+    issueLabel.style.display = "block"; // Show the label when enabled
+  }
 
-    // Toggle the note input field visibility and opacity
-    if (noteInput.disabled) {
-      noteInput.style.opacity = "0.2"; // 20% opacity when disabled
-      noteLabel.style.display = "none"; // Hide label when disabled
-    } else {
-      noteInput.style.opacity = "1"; // Full opacity when enabled
-      noteLabel.style.display = "block"; // Show label when enabled
-    }
-  });
+  // Toggle the note input field visibility and opacity
+  if (noteInput.disabled) {
+    noteInput.style.opacity = "0.2"; // 20% opacity when disabled
+    noteLabel.style.display = "none"; // Hide label when disabled
+  } else {
+    noteInput.style.opacity = "1"; // Full opacity when enabled
+  }
+});
+
 </script>
+
+
 															</div>
 				</div>							
 			</div>
@@ -1205,6 +1257,18 @@ $_GET['id'] = 1;
 		
 		
     </div>
-	<script src="edit.js"></script>
+	<?php
+    // Apply dynamic coloring based on fetched data
+    foreach ($teethData as $teethRecord) {
+        $toothNumber = $teethRecord['tooth_number'];
+        $issue = $teethRecord['issue'];
+        $color = isset($issueColors[$issue]) ? $issueColors[$issue] : 'none'; 
+
+        // JavaScript to dynamically color the tooth polygon
+        echo "<script>
+                document.getElementById('tooth_$toothNumber').style.fill = '$color';
+              </script>";
+    }
+    ?>
 </body>
 </html>
