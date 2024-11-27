@@ -1,9 +1,15 @@
 <?php
+session_start();
+if(!isset($patientid)){
+	$patientid=$_GET["id"];
+}
+
 // Establish connection using mysqli
 $servername = "localhost"; // e.g., "localhost"
 $username = "root";
 $password = "";
 $dbname = "dbdental";
+
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -11,7 +17,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-$sql = "SELECT `tooth_number`, `issue` FROM `teeth`";
+$sql = "SELECT * FROM `teeth` where patientid=$patientid";
 $result = $conn->query($sql);
 
 $colors = array(
@@ -28,8 +34,12 @@ $toothData = array();
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         $toothData[] = array(
+			
             'tooth_number' => $row['tooth_number'],
-            'color' => isset($colors[$row['issue']]) ? $colors[$row['issue']] : 'transparent'
+            'issue' => $row['issue'],
+            'color' => isset($colors[$row['issue']]) ? $colors[$row['issue']] : 'transparent',
+            'date' => $row['date'],
+			'other' => $row['other']
         );
     }
 } else {
@@ -338,7 +348,7 @@ margin-left:0px;
 }
 .patientcontainer{
 	width:467px;
-	height:273px;
+	height:330px;
 	position:absolute;
 	background:#FFFFFF;
 	border-radius:10px;
@@ -411,7 +421,7 @@ border-style:solid;
 	background:#FFFFFF;
 	border-radius:10px;
 	left:23px;
-	top:360px;	
+	top:420px;	
 	box-shadow: 1px 1px #ABABAB;
 }
 
@@ -464,8 +474,9 @@ margin-left:35px;
 	background:#FFFFFF;
 	border-radius:10px;
 	left:30px;
-	top:700px;	
+	top:720px;	
 	box-shadow: 1px 1px #ABABAB;
+
 }
 
 .tooth-chart{
@@ -487,7 +498,7 @@ margin-left:35px;
 <body>
 
 <?php
-$_GET['id'] = 1;
+
  include 'editteeth.php'; ?>
     <div class="left-container">
         <img src="goldenlogo.png" style="width:24px; height:24px; display:block; margin:14px auto 0;">
@@ -522,14 +533,14 @@ $_GET['id'] = 1;
 															
 															
 																				<!-- PERSONAL INFORMATION-->
-															<form action="editteeth.php" method="POST">
+															
   <?php if ($patient): ?>
   
     <div class="patientcontainer">
       <div class="flexcontainer1">
         <span style="font-family:Roboto;font-size:15px;font-weight:bold; margin-left:42px;margin-top:34px;margin-bottom:15px;">Personal Information</span>
         <img src="info.png" class="smallicons" style="margin-top:34px;margin-left:8px;">
-        <span class="edit-btn" style="font-family:Roboto;font-size:11px;font-weight:bold;color:#BEBBBB;margin-top:37px; margin-left:185px; cursor: pointer;">Edit</span>
+        <span class="edit-btn" style="font-family:Roboto;font-size:11px;font-weight:bold;color:#BEBBBB;margin-top:37px; margin-left:185px; cursor: pointer;"><a href="personedit.php?id=<?php echo $patientid ?>"><button style="background:none;border:none;color:#BEBBBB;font-family:Roboto;font-size:11px;font-weight:bold;">Edit</button></a></span>
         <span class="cancel-button" style="font-family:Roboto;font-size:11px;font-weight:bold;color:#BEBBBB;margin-top:37px; margin-left:10px; display:none;">Cancel</span>
       </div>
       <div class="flexcontainer">
@@ -554,14 +565,18 @@ $_GET['id'] = 1;
       </div>    
       <div class="flexcontainer">
         <span class="b">Contact Number</span>
-        <span class="contactNumber"><?php echo htmlspecialchars($patient['contactNumber']); ?></span>
+        <span class="contactNumber">09<?php echo htmlspecialchars($patient['contactNumber']); ?></span>
+      </div>
+	  <div class="flexcontainer">
+        <span class="b">Address</span>
+        <span class="contactNumber" style="overflow:auto;"><?php echo htmlspecialchars($patient['address']); ?></span>
       </div>
     </div>
 
   <?php else: ?>
   <?php endif; ?>
   
-</form>
+
 
 
 																				<!-- DIAGNOSIS HISTORY-->	
@@ -595,7 +610,7 @@ $_GET['id'] = 1;
 																					}
 
 																					// Fetch up to 4 diagnosis records for a specific patient, ordered by the oldest first
-																					$targetPatientId = 1; // Change this dynamically as needed
+																					$targetPatientId = $patientid; // Change this dynamically as needed
 																					$diagnosisQuery = "SELECT `diagnosis_id`, `diagnosisName`, `diagnosisDate` 
 																									   FROM `diagnosis` 
 																									   WHERE `patientid` = ? 
@@ -642,7 +657,7 @@ $_GET['id'] = 1;
 																										}
 
 																										// Fetch prescription records for a specific patient (maximum of 4, ordered by the oldest)
-																										$targetPatientId = 1; // Change this dynamically as needed
+																										$targetPatientId = $patientid; // Change this dynamically as needed
 																										$prescriptionQuery = "SELECT `prescriptionID`, `prescriptionName`, `prescriptionDate`, `patientid`
 																															   FROM `prescription`
 																															   WHERE `patientid` = ?
@@ -693,7 +708,7 @@ $_GET['id'] = 1;
 																										$databaseConnection->close();
 																										?>
 
-																				<!-- TREATMENT HISTORY-->
+																										<!-- TREATMENT HISTORY-->
 																										<?php
 																										// Database connection details
 																										$dbHost = "localhost";
@@ -710,7 +725,7 @@ $_GET['id'] = 1;
 																										}
 
 																										// Fetch treatment records for a specific patient (maximum of 4, ordered by the oldest)
-																										$targetPatientId = 1; // Change this dynamically as needed
+																										$targetPatientId = $patientid; // Change this dynamically as needed
 																										$treatmentQuery = "SELECT `treatmentID`, `treatmentName`, `treatmentDate`, `patientid`
 																														   FROM `treatment`
 																														   WHERE `patientid` = ?
@@ -770,12 +785,29 @@ $_GET['id'] = 1;
 																	<!-- <div class="align" style="margin-top:50px;border:#4182F1 2px solid;width:148px;height:33px;border-radius:10px;color:#4182F1;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-family:Roboto;font-size:12px;font-weight:bold;">+ Add new history</span>
 																				
 																	</div> -->	
-																	<div style="width:500px;height:300px;border:d 1px solid;background:#F8F8F8;margin-left:30px;border-radius:20px;position:absolute;top;display:flex;flex-direction:column;">
+																	<div style="width:500px;height:300px;border:d 1px solid;background:#F8F8F8;margin-left:30px;border-radius:20px;position:absolute;top;display:flex;flex-direction:column;overflow:auto;">
 																	
-																	<span style="margin-left:20px;margin-top:20px;font-weight:bold">-Updated at 11/16/2024</span>
-																	<span style="margin-left:20px;margin-top:10px;">Teeth Number:6</span>
-																	<span style="margin-left:20px;">Issue:Other</span>	
-																	<span style="margin-left:20px;"></span>	
+																	<?php
+																		// Output the fetched data in span tags for every history entry, with blank for "other" issues
+																		foreach ($toothData as $data) {
+																			// Display each history entry for every tooth number update
+																			echo '<div style="margin-left:20px;margin-top:30px;">';
+																			echo '<span><b>- Updated on:</b> ' . date("m/d/Y", strtotime($data['date'])) . '</span><br>';
+																			echo '<span>Teeth Number: ' . $data['tooth_number'] . '</span><br>';
+																			
+																			
+																			// Check if the issue is "other", if so, print blank
+																			if (strtolower($data['issue']) == 'other') {
+																				echo '<span>Issue: Other</span><br>';  // Blank for 'other' issue
+																				echo '<span>'.$data['o'].'</span>';  // Blank space for background
+																			} else {
+																				echo '<span>Issue: ' . ucfirst($data['issue']) . '</span><br>';
+																				
+																			}
+																			
+																			echo '</div>';
+																		}
+																		?>
 																	
 																	</div>
 																	
@@ -811,7 +843,8 @@ $_GET['id'] = 1;
 																														</select>
 																															<input type="date" id="todayDate" name="date" style="display:none;" value="" />
 																																<script>
-																																	document.getElementById('todayDate').value = new Date().toISOString().split('T')[0];
+																																	document.getElementById('todayDate').value = new Date().toLocaleDateString('en-CA');
+
 																																</script>
 
 																														<!-- Issue Selection -->
@@ -827,8 +860,8 @@ $_GET['id'] = 1;
 																														</select>
 
 																														 <div id="otherInputDiv" style="background:grey; width:200px;height:40px;position:absolute;left:40px;display:none;align-items:center;background:none;">
-        <input type="text" placeholder="Other.." name="other" id="otherInput" />
-    </div>
+																																<input type="text" placeholder="Other.." name="other" id="otherInput" />
+																															</div>
 
     <script>
         function toggleOtherInput() {
@@ -1213,11 +1246,36 @@ $_GET['id'] = 1;
 																	<button type="submit" id="saveBtn" style="margin-left:45px;margin-top:60px;background:none;border-radius:5px;border-color:blue;color:blue;font-weight:bold;display:none;">Save</button>
 																	<br>
 																	<button id="cancelBtn" type="button" style="margin-left:45px;margin-top:20px;background:none;border-radius:5px;border-color:red;color:red;font-weight:bold;display:none;" onclick="window.location.reload();">Cancel</button>
+																	</form>
+																	<?php 
+																	$servername = "localhost"; // e.g., "localhost"
+																	$username = "root";
+																	$password = "";
+																	$dbname = "dbdental";
+
+
+																	$conn = new mysqli($servername, $username, $password, $dbname);
+																	$sqlt = "SELECT note from teethnote where patientid=$patientid";
+																	$result = $conn->query($sqlt);
+																	if ($result->num_rows > 0) {
+																	while($row = $result->fetch_assoc()) {
+																											$s=$row['note'];
+																											}
+																	} else {	
+																					echo "No data found!";
+																				}
+																	
+																	?>
 																	<div class="align" style="margin-top:50px;">
-        <span style="margin-left:7px;font-family:Roboto;font-size:12px;font-weight:bold;">Note:</span>
-        <input id="noteInput" name="note" type="text" style="width:400px; height:200px;" disabled>
+																	<span style="margin-left:7px;font-family:Roboto;font-size:12px;font-weight:bold;">Note:</span>
+																	<form action="note.php" method="POST">
+																	
+																	<input name="note" type="text" style="width:400px; height:200px;" value="<?php echo $s ?>">
+																	<button type="submit" style="margin-left:0px;margin-top:0px;background:none;border-radius:5px;border-color:blue;color:blue;font-weight:bold;">Save Note</button>
+																	</div>
+																	
     </div>
-</form>
+
 																	<script>
 // Get the button, select elements, and labels
 const editButton = document.getElementById('editButton');
@@ -1225,8 +1283,7 @@ const teethSelect = document.getElementById('teethSelect');
 const teethLabel = document.getElementById('teethLabel');
 const issueSelect = document.getElementById('issueSelect');
 const issueLabel = document.getElementById('issueLabel');
-const noteInput = document.getElementById('noteInput');  // Note input field
-const noteLabel = document.getElementById('noteLabel');  // Label for the note input
+
 const saveBtn = document.getElementById('saveBtn');
 const cancelBtn = document.getElementById('cancelBtn');  // Cancel button
 
@@ -1235,7 +1292,7 @@ editButton.addEventListener('click', function() {
   // Toggle the disabled property of the select elements and the note input
   teethSelect.disabled = !teethSelect.disabled;
   issueSelect.disabled = !issueSelect.disabled;
-  noteInput.disabled = !noteInput.disabled; // Enable/Disable note input field
+ 
   
   // Show Save and Cancel buttons and hide Edit button
   saveBtn.style.display = 'inline-block';
@@ -1264,12 +1321,7 @@ editButton.addEventListener('click', function() {
   }
 
   // Toggle the note input field visibility and opacity
-  if (noteInput.disabled) {
-    noteInput.style.opacity = "0.2"; // 20% opacity when disabled
-    noteLabel.style.display = "none"; // Hide label when disabled
-  } else {
-    noteInput.style.opacity = "1"; // Full opacity when enabled
-  }
+  
 });
 
 </script>

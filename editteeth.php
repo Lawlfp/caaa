@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 // Function to fetch patient data by ID
 function getPatientById($id) {
     global $conn;
-    $sql = "SELECT `id`, `firstName`, `middleName`, `lastName`, `birthdate`, `sex`, `contactNumber`, `email`
+    $sql = "SELECT `id`, `firstName`, `middleName`, `lastName`, `birthdate`, `sex`, `contactNumber`, `email`, `address`
             FROM `patient` 
             WHERE `id` = ?";
     $stmt = $conn->prepare($sql);
@@ -34,13 +34,13 @@ function updatePatient($id, $data) {
     global $conn;
     $sql = "UPDATE `patient` 
             SET `firstName` = ?, `middleName` = ?, `lastName` = ?, `birthdate` = ?, 
-                `sex` = ?, `contactNumber` = ?, `email` = ?
+                `sex` = ?, `contactNumber` = ?, `email` = ? , `address` = ? 
             WHERE `id` = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param(
         "ssssssss", 
         $data['firstName'], $data['middleName'], $data['lastName'], $data['birthdate'],
-        $data['sex'], $data['contactNumber'], $data['email'], $id
+        $data['sex'], $data['contactNumber'], $data['email'], $data['address'], $id
     );
     return $stmt->execute();
 }
@@ -61,7 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($id)) {
         'birthdate' => $_POST['patientBirthdate'],
         'sex' => $_POST['patientSex'],
         'contactNumber' => $_POST['patientContactNumber'],
-        'email' => $_POST['patientEmail']
+        'email' => $_POST['patientEmail'],
+		'address' => $_POST['address']
     ];
 
     if (updatePatient($id, $updatedData)) {

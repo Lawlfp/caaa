@@ -81,6 +81,8 @@ $resultz = $conn->query("SELECT * FROM `login` WHERE id=$id");
     }
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,26 +90,33 @@ $resultz = $conn->query("SELECT * FROM `login` WHERE id=$id");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Split Centered Container</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
-		@import url('https://fonts.googleapis.com/css2?family=Amiri&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton:wght@400;700&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Content:wght@400;700&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
         body {
             margin: 0;
             padding: 0;
             height: 100vh;
             display: flex;
-            overflow: hidden;
+           overflow-x:hidden;
         }
-		
+		span{
+		margin:0;
+		padding:0;
+		}
         .left-container {
-    width: 15%;
+    width: 10.7%;
     height: 100%;
-    background: #3498DB;
+    background: linear-gradient(to bottom, #0C3B67, #2CA6B6);
     box-shadow: 4px 0px 4px 0px rgba(0, 0, 0, 0.25);
-    z-index: 2; /* Bring the left container in front */
+    z-index: 9; /* Bring the left container in front */
     display: flex;
     flex-direction: column; /* Stack items vertically */
     align-items: center; /* Center items horizontally */
-    
+    position:fixed;
+	overflow:hidden;
+	
     color: white; /* Text color for better visibility */
 }
 		.picture{
@@ -115,8 +124,7 @@ $resultz = $conn->query("SELECT * FROM `login` WHERE id=$id");
 		height: 85px;
 		border-radius: 85px;
 		margin-top:11px;
-		background-position: center;
-		background: url(<?php echo $backgroundImageURL ?>)center/cover no-repeat;
+background: url(<path-to-image>), lightgray 50% / cover no-repeat;
 		}
 		
 		.pictext1{
@@ -125,35 +133,45 @@ text-align: center;
 font-family: Amiri;
 font-size: 20px;
 font-style: normal;
-font-weight: 400;
+font-weight: normal;
+line-height: normal;
+margin-top:6px;
+		}
+		.pictext2{
+		color: #FFF;
+text-align: center;
+font-family: Amiri;
+font-size: 15px;
+font-style: normal;
+margin-top:-12px;
 line-height: normal;
 		}
-
         .right-container {
-            width: 85%;
-            height: 100%;
+            width: 100%;
+            
             display: flex;
             flex-direction: column; /* Stack top and bottom sections vertically */
+			
         }
-
         .top-section {
-            height: 88px;
-            background: #3498DB;
-            z-index: 1; /* Send the top section to the back */
+			width:100%;
+			position:fixed;
+            height:	9.1%;	
+            background: linear-gradient(to right, #0C3C68, #2DA6B6);
+			
+            z-index: 8; /* Send the top section to the back */
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .bottom-section {
-            flex-grow: 1; /* Allow the bottom section to grow and take remaining space */
+             display: flex;
+  flex-direction: row; /* Default: left to right */
             background-color: white;
-            z-index: 1; /* Send the bottom section to the back */
-            display: flex;
-			
+            
         }
 
-        
 		
 		.logotext{
 		color: #FFF;
@@ -166,90 +184,15 @@ line-height: normal;
 margin-top: -1px;
 		}
 		
-		.pictext1{
-		margin-top:5px;
-		color: #FFF;
-text-align: center;
-font-family: Amiri;
-font-size: 20px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
 
-		}
-		.pictext2{
-		color: #FFF;
-text-align: center;
-font-family: Amiri;
-font-size: 15px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-margin-top:-12px;
-		}
-		
 		.margintop {
-            margin-top: 17px;
+			margin-top:20px;
+			width:100%;
+			height:100%;
         }
-        .box1 {
-            margin-left: 20px;
-            width: 250px;
-            height: 142px;
-            background-color: #3498DB;
-            border-radius: 10px;
-            position: absolute; /* Add relative positioning */
-        }
+        
 
-        .text {
-            position: absolute; /* Change to absolute positioning */
-            top: 35%;
-            transform: translateY(-50%);
-            color: #FFF;
-            text-shadow: 0px 4px 0px rgba(0, 0, 0, 0.25);
-            font-family: Anton;
-            font-size: 25px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: normal;
-            letter-spacing: 2.5px;
-            margin-left: 19px;
-        }
-
-        .text2 {
-            position: absolute; /* Change to absolute positioning */
-            top: 68%;
-            transform: translateY(-50%);
-            color: #FFF;
-            text-shadow: 0px 4px 0px rgba(0, 0, 0, 0.25);
-            font-family: Anton;
-            font-size: 25px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: normal;
-            letter-spacing: 2.5px;
-            margin-left: 19px;
-        }
-
-        .ellipse-wrapper {
-			
-            width: 160px;
-            height: 144px;
-            position: relative; /* Change to absolute positioning */
-            filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 1));
-            top: -2%; /* Adjust these values according to your layout needs */
-            left: 69%;
-
-            z-index: 3; /* Increase z-index to bring it to the front */
-        }
-
-        .ellipse-2 {
-            background: #86caf9;
-            border-radius: 50%;
-            width: 100%;
-            height: 100%;
-            clip-path: polygon(0% 0%, 50% 0%, 50% 100%, 0% 100%);
-            z-index: 3; /* Make sure it matches the z-index of .ellipse-wrapper */
-        }
+        
 		
 		hr{
 		background-color:white;
@@ -258,7 +201,7 @@ margin-top:-12px;
 		}
 		/* ... Existing styles ... */
 #notactive{
-	border-color: #3498DB;
+	border-color:transparent;
 }
 #active{
 	border-color:white;
@@ -266,10 +209,9 @@ margin-top:-12px;
 .dashboard1st {
 text-decoration:none;
     width: 98%;
-    height: 3.8%;
+    height: 3%;
     margin-top: 3px;
     border-left: 5px;
-    
     border-style: solid;
     border-right: 0px;
     border-top: 0px;
@@ -280,8 +222,8 @@ text-decoration:none;
 .dashboard2 {
 text-decoration:none;
     width: 98%;
-    height: 5%;
-    margin-top: 7px;
+    height: 3%;
+    margin-top: 17px;
     border-left: 5px;
     border-style: solid;
     border-right: 0px;
@@ -293,8 +235,8 @@ text-decoration:none;
 .dashboard3 {
 text-decoration:none;
     width: 98%;
-    height: 5%;
-    margin-top: 1.1px;
+    height: 3%;
+    margin-top: 17px;
     border-left: 5px;
     border-style: solid;
     border-right: 0px;
@@ -306,8 +248,8 @@ text-decoration:none;
 .dashboard3 {
 text-decoration:none;
     width: 98%;
-    height: 5%;
-    margin-top: 1.1px;
+    height: 3%;
+    margin-top: 20px;
     border-left: 5px;
     border-style: solid;
     border-right: 0px;
@@ -319,7 +261,7 @@ text-decoration:none;
 .dashboard4 {
 text-decoration:none;
     width: 98%;
-    height: 5%;
+    height: 3%;
     margin-top: 2px;
     border-left: 5px;
     border-style: solid;
@@ -332,8 +274,8 @@ text-decoration:none;
 .dashboard5 {
 text-decoration:none;
     width: 98%;
-    height: 5%;
-    margin-top: 1px;
+    height: 3%;
+    margin-top: 20px;
     border-left: 5px;
     border-style: solid;
     border-right: 0px;
@@ -344,16 +286,19 @@ text-decoration:none;
 }
 .icons {
     margin-left: 30px;
+	width:20px;
+	height:20px;
 }
 
 .dashtext {
 	
+	display:block;
     color: #FFF;
     font-family: Anton;
-    font-size: 17px;
-
-    font-weight:400;
-    line-height: normal;
+    font-size: 0.98rem;
+	
+    font-weight: 400 !important;
+	transform: scaleX(1.1) scaleY(1);
     margin-left: 21px; /* Add some space between icon and text */
 }
 
@@ -361,39 +306,117 @@ text-decoration:none;
 text-decoration:none;
     width: 98%;
     height: 5%;
-    margin-top: 275px;
+    margin-top: 450px;
     border-left: 5px;
     border-style: solid;
     border-right: 0px;
     border-top: 0px;
     border-bottom: 0px;
-    display: flex;
+    display: block; 
+	text-align: center;
     align-items: center; /* Align items vertically center */
+	
 }
 .dashtextlogout {
 	
-    color: #FF0000;
-    font-family: Anton;
-    font-size: 20px;
+    color: #FFFFFF;
+    font-family: Content;
+    font-size: 15px;
 
-    font-weight:lighter;
     line-height: normal;
-    margin-left: 21px; /* Add some space between icon and text */
+    margin-left: 10px; /* Add some space between icon and text */
 }
 .logouticons {
-    margin-left: 32px;
+vertical-align: middle;
+margin-left:0px;
+	width:19px;
+	height:22px;
 }
-.texts{
+.fullbody{
+	position:absolute;
+	top:107px;
+	left:205px;
+	width:100%;
+	height:100%;
+	margin-top:0;
+	display: flex;
+    flex-direction: column;
 	
-		margin-left:20px;
-		margin-top:178px;
-		color: #3498DB;
-font-family: Anton;
-font-size: 25px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-		
+}
+.patientcontainer{
+	width:30%;
+	height:80%;
+	position:absolute;
+	background:#FFFFFF;
+	border-radius:7px;
+	left:240px;
+	top:150px;
+	
+	
+}
+
+.patientcontainer2{
+	width:369px;
+	height:272px;
+	position:absolute;
+	background:#FFFFFF;
+	border-radius:10px;
+	left:150px;
+	top:160px;
+	
+	box-shadow: 1px 1px #ABABAB;
+	
+	transform:scale(1.5);
+}
+.flexcontainernoline{
+	display:flex;
+margin-top:15px;
+}
+
+.flexcontainernoline span{
+	font-family:Roboto;
+	font-size:12px;
+	font-weight:bold;
+
+}
+.flexcontainer1{
+display:flex;
+}
+.smallicons{
+	width:16px;
+	height:16px;
+	position:relative;
+}
+.flexcontainergrey{
+display:flex;
+margin-top:6px;
+}
+.flexcontainergrey span{
+font-family:Roboto;
+font-size:11px;
+font-weight:bold;
+color:#969696;
+}
+
+.flexcontainernoline input{
+font-family:Roboto;
+font-size:11px;
+font-weight:bold;
+
+outline:none;
+border:none;
+}
+.leftalign{
+	margin-left:34px;
+	width:193px;
+}
+.aligninput{
+width:188px;
+margin-left:35px;
+}
+.align{
+width:193px;
+margin-left:35px;
 }
 .container{
 width: 84.5vw;
@@ -467,16 +490,17 @@ width:114px;
 font-family:Amiri;
 font-weight: bold;
 font-size:15px;
-color:#3498DB;
+color:#EEE5E5;
 margin-left:1.5%;
 letter-spacing:0.5px;
+
 
 }
 .title1{
 font-family:Amiri;
 font-weight: bold;
 font-size:15px;
-color:#3498DB;
+color:#EEE5E5;
 margin-left:10px;
 letter-spacing:0.5px;
 }
@@ -489,8 +513,9 @@ margin-left:10px;
 letter-spacing:0px;
 }
 .darkgreypart{
+	
 height:65px;
-background-color:#EEE5E5;
+background: linear-gradient(to bottom, #0C3B67, #2CA6B6);
 width:82vw;
 margin-top:-0.7%;
 margin-left:auto;
@@ -506,6 +531,7 @@ width:82vw;
 margin-top:0.6%;
 margin-left:auto;
 margin-right:auto;
+border:lightgray solid 1px;
 border-radius:10px;
 display: flex;
     align-items: center; /* Align content vertically center */
@@ -565,22 +591,19 @@ flex-direction:row;
 </head>
 <body>
     <div class="left-container">
-        <img src="logo.png" style="width:27px; height:27px; display:block; margin:14px auto 0;">
-		<span class="logotext">GOLDEN DENTAL</span>
+        <img src="goldenlogo.png" style="width:24px; height:24px; display:block; margin:14px auto 0;">
+		<span class="logotext" style="margin-top:2px;">GOLDEN DENTAL</span>
 		<div class="picture"></div>
-		<span class="pictext1">Dr. <?php while ($row = $resultq->fetch_assoc()) {
-										echo $row['lastName'];
-										
-										}
-										?></span>
+		<span class="pictext1">Dr. Trio</span>
 		<span class="pictext2">Admin</span>
 		<hr></hr>
-		<a href="dashdent.php?id=<?php echo $id; ?>"	 class="dashboard1st" id="notactive"><img src="dash.png" class="icons"><span class="dashtext">Dashboard</span></a>
-		<a href="appointment1.php?id=<?php echo $id; ?>"	 class="dashboard2" id="active"><img src="app.png" class="icons"><span class="dashtext">Appointment</span></a>
-		<a href="profiledetails.php?id=<?php echo $id; ?>"	 class="dashboard3" id="notactive"><img src="profile.png" class="icons"><span class="dashtext">Profile</span></a>
-		<a href="doctors.php?id=<?php echo $id; ?>"	 class="dashboard4" id="notactive"><img src="doc.png" class="icons"><span class="dashtext">Doctors</span></a>
-		<a href="patient.php?id=<?php echo $id; ?>"	 class="dashboard5" id="notactive"><img src="pat.png" class="icons"><span class="dashtext">Patients</span></a>
-		<a href="logindent.php"	 class="dashboard6" id="notactive"><img src="logout.png" class="logouticons"><span class="dashtextlogout">Logout</span></a>
+		<a href="dashdent.html"	 class="dashboard1st" id="notactive"><img src="dashboardicon.png" class="icons"><span class="dashtext" style="font-weight:normal;">Dashboard</span></a>
+		<a href="appdent.html"	 class="dashboard2" id="active"><img src="appointments.png" class="icons"><span class="dashtext">Appointment</span></a>
+		<a href="profdent.html"	 class="dashboard3" id="notactive"><img src="profileicon.png" class="icons"><span class="dashtext">Profile</span></a>
+		<a href="patdent.html"	 class="dashboard5" id="notactive"><img src="patient.png" class="icons"><span class="dashtext">Patients</span></a>
+		<div style="width: 100%;
+    height: auto;
+    text-align: center;"><div style="width: 126px;height:29px;margin: 0 auto;background-color: #EB480B;border-radius:8px;box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);"><a href="logout.html"	 class="dashboard6" id="notactive"><img src="exit.png" class="logouticons"><span class="dashtextlogout">Log Out</span></a></div></div>
     </div>
     <div class="right-container">
         <div class="top-section">
@@ -589,7 +612,19 @@ flex-direction:row;
         </div>
         <div class="bottom-section">
             <div class="margintop">
-               <span class="texts">Appointment</span>
+				<div class="fullbody">                      <div style="width:100%;height:72px;display:flex;flex-direction:row;">
+																<div style="display:inline-block;
+																width:24.5%;height:72px;margin-left:25px;"><span style="													
+																color:#248AA2;font-family: Anton;font-size: 25px;font-style: normal;font-weight: 400;line-height: normal;
+																												">Appointment</span>
+																										</div>
+																										<div style="display:inline-block;height:72px;width:74.05%;"></div>			
+																										
+															</div>
+															
+															
+															<div class="margintop">
+               <span class="texts"></span>
                
 			   
 			   <form action='' method='get' class='search-form'>
@@ -602,7 +637,7 @@ flex-direction:row;
 											<span class="title1" style="width:201px;">Patient</span>
 											<span class="title1" style="width:145px;">Contact Number</span>
 											<span class="title1" style="width:222px;">Preferred Date and Time</span>
-											<span class="title1" style="width:189px;">Service/Procedure</span>
+											<span class="title1" style="width:189px;">Treatment</span>
 											<span class="title1" style="width:177px;">Birthdate</span>
 										</div>
 										
@@ -648,7 +683,7 @@ flex-direction:row;
                                                             } else {
                                                             echo "0 results";
                                                             }
-                                                        
+															
                                                             ?>
                                                         
 											
@@ -669,14 +704,22 @@ flex-direction:row;
 			   </div>			   
 			   
 			   </div></div></div>
-				
+																															
+</div>										
+															<div style="height:2000px;"></div>
+																				
+										
+										
+				</div>							
+			</div>
             </div>
-
+			
 			
         </div>
 		
-		</div>
 		
     </div>
+	
+
 </body>
 </html>

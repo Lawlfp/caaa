@@ -1,3 +1,24 @@
+<?php 
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "dbdental";
+$conn = new mysqli($servername, $username, $password, $dbname);
+$doctorid=1;
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+$sql="SELECT * FROM patient WHERE doctorid='$doctorid'";
+$t=258;
+																										$l=228;
+$result = $conn->query($sql);	
+																													
+if ($result->num_rows > 0) {
+	while($row = $result->fetch_assoc()) {
+			
+	
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -268,7 +289,7 @@ margin-left:0px;
 	height:16px;
 }
 .grey{
-	width:900px;
+	width:700px;
 	height:22px;
 	border-radius:6px;
 	background:#F3F4F8;
@@ -285,35 +306,28 @@ margin-left:0px;
 	
 }
 .data{
+	left:228px;
 	height:60px;
-	width:900px;
+	width:700px;
 	border-bottom:1px;border-top:0px;border-right:0px;border-left:0px;border-color:#D3D3D3;
 	border-style:solid;
 	position:absolute;
-	top:258px;
-	left:228px;	
+	
 	display: flex;
     align-items: center;
 	
 }
-.datapic{
-width: 36px;
-height: 36px;
-border-radius: 36px;
-background: url(samplepic.png), lightgray 50% / cover no-repeat;
-position: relative; 
-margin-left:20px;
- transform: translateY(-5%);
-}
+
 .dataname{
 	font-family:Roboto;
-	font-size:10px;
+	font-size:12px;
 	font-weight:bold;
-	margin-left:18px;	
+	margin-left:18px;
+	width:195px;
 }
 .dataname1{
 	font-family:Roboto;
-	font-size:8px;
+	font-size:10px;
 	font-weight:bold;
 	margin-left:18px;	
 	color:#7C7E8E;
@@ -374,26 +388,50 @@ display: flex;
 																</div>	
 
 															</form>						
-															<a href="" style="width:121px; height:30px; border-radius:8px; border: 1px solid #4182F1; text-align:left; text-decoration:none; position:absolute; top:169px; left:988px; display:flex; align-items:center; font-size:13px;font-weight:bold;font-size:Amiri;color:#4182F1;">
+															<a href="" style="width:121px; height:30px; border-radius:8px; border: 1px solid #4182F1; text-align:left; text-decoration:none; position:absolute; top:169px; left:988px; display:flex; align-items:center; font-size:13px;font-weight:bold;font-size:Amiri;color:#4182F1;display:none;">
 																<img src="add.png" class="addpatientimg" style="margin-left:16px;margin-right:6px;">Add Patient
 															</a>
-															<div class="grey"><span class="heads" style="margin-right:219px;margin-left:23px;">NAME</span><span class="heads" style="margin-right:151px;">ID</span><span class="heads" style="margin-right:95px;">LAST VISIT(y/d/m)</span><span class="heads">LAST DIAGNOSIS</span></div>
-															<div class="data"><div class="datapic"></div>
-																										<div class="text-container">
-																										<span class="dataname">John J. Doe</span><span class="dataname1">Next Appointment : 11 Dec - 8:00 AM </span></div>
-																										<span style="font-family:Roboto;font-size:10px;margin-left:64px;">P-0273</span>
-																										<span style="font-family:Roboto;font-size:10px;margin-left:128px;">11/12/24</span>
-																										<span style="font-family:Roboto;font-size:10px;font-weight:bold;margin-left:138px;">Gingivitis</span>
-																										<span style="font-family:Roboto;font-size:10px;font-weight:bold;margin-left:152px;color:#0046C4">Profile</span>
-																										<span style="margin-left:15px;color:#D3D3D3;font:size:1px;">|</span>
-																										<button style="outline:none;border:none;background:none; margin-left:5px;"><img src="ellip.png" style="width:20px;height:20px;"></button>
-																										</div>
+															<div style="position:absolute;transform:scale(1.2);top:-40px;left:-30px;">
+															<div class="grey"><span class="heads" style="margin-right:225px;margin-left:20px;">NAME</span><span class="heads" style="margin-right:145px;">ID</span><span class="heads">LAST DIAGNOSIS</span></div>
+															
+																										<?php 	
 																										
 																										
-				</div>							
-			</div>
-            </div>
-			
+																										//$sql="SELECT diagnosisName FROM diagnosis WHERE patientid='$row['id']' ORDER BY diagnosisDate DESC LIMIT 1";						
+																										//$resultq = $conn->query($sql);
+																										//while ($row = $resultq->fetch_assoc())//
+																										//while($fets = $resultq->fetch_assoc()){//
+																										echo '<div class="data" style="top:'.$t.'px;"><div class="datapic"></div>';
+																										echo '<div class="text-container">';
+																										echo '<span class="dataname">'.$row['firstName'].' '.$row['middleName'].' '.$row['lastName'].'</span><span class="dataname1" style="display:none;">Next Appointment : 11 Dec - 8:00 AM </span></div>';
+																										echo'<span style="font-family:Roboto;font-size:10px;margin-left:64px;width:158px;">P-'.$row['id'].'</span>';
+																										
+																										echo'<span style="font-family:Roboto;font-size:10px;font-weight:bold;width:190px;">'.$row['lastDiagnosis'].'</span>';
+																										echo '<a href="patientrec.php?id='.$row['id'].'"><span style="text-decoration:none;font-family:Roboto;font-size:10px;font-weight:bold;;color:#0046C4">Profile</span></a>';
+																										echo '<span style="margin-left:15px;color:#D3D3D3;font:size:1px;display:none;">|</span>';
+																										echo '<button style="outline:none;border:none;ia:none; margin-left:5px; display:none;"><img src="ellip.png" style="width:20px;height:20px;"></button>';
+																										echo' </div>';
+																										$t=$t+70;
+																															}
+																														}
+																										
+																										
+																													
+																										?>
+																										
+																										
+																										
+																										
+																										
+																										
+																										
+																										
+				</div>																					
+				
+				
+			</div>																						
+            </div>																					
+																										
 			
         </div>
 		

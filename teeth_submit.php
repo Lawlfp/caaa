@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 $servername = "localhost"; // e.g., "localhost"
 $username = "root";
 $password = "";
@@ -30,7 +30,10 @@ if ($conn->connect_error) {
 
     // Execute and check for success
     if ($stmt->execute()) {
-        echo "Record saved successfully.";
+        echo "<script>
+                    alert('New teeth history submitted successfully!');
+                    window.location.href = 'patientrec.php'; // Adjust to your treatment editing page
+                  </script>";
     } else {
         echo "Error: " . $stmt->error;
     }

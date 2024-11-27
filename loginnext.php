@@ -1,3 +1,39 @@
+<?php 
+session_start();
+$_SESSION['username']=$_POST['email'];
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "dbdental";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST'  ){
+	$username=$_POST['email'];
+	
+	$countQuery="SELECT 'username' FROM login WHERE username='$username'";
+	
+	$resulta = $conn->query($countQuery);
+	if ($resulta->num_rows > 0) {
+			
+    
+	} else {
+		echo "<script>
+                    alert('Account Not Found');
+                    window.location.href = 'login.html'; // Adjust to your treatment editing page
+                  </script>";
+		}
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,13 +107,13 @@
 					</div>
 					
 					<div class="flexcontainer" style="margin-left:52px;">
-							<span style="font-family:Arimo;font-size:15px;font-weight:bold;color:white;margin-top:31px;">Email</span>
+							<span style="font-family:Arimo;font-size:15px;font-weight:bold;color:white;margin-top:31px;">Password</span>
 					</div>
-					<div class="flexcontainer" style="margin-left:52px;margin-top:5px;border-radius:10px;width:396px;height:42px;border:1px #FFFFFF solid;align-items: center;"><form action="loginnext.php" method="POST">
-							<input type="text" name="email" class="field" style="font-family:Arimo;font-size:17px;font-weight:bold;color:white;margin-left:10px;outline:none;background:transparent;border:none;" placeholder="Email" max-length=40 pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$" required>
+					<div class="flexcontainer" style="margin-left:52px;margin-top:5px;border-radius:10px;width:396px;height:42px;border:1px #FFFFFF solid;align-items: center;"><form action="logintodash.php" method="POST">
+							<input type="password" name="password" class="field" style="font-family:Arimo;font-size:17px;font-weight:bold;color:white;margin-left:10px;outline:none;background:transparent;border:none;" placeholder="Password" maxlength=30>
 					</div>
 					<div class="flexcontainer" style="margin-left:52px;margin-top:18px;border-radius:10px;width:396px;height:42px;border:1px #FFFFFF solid;align-items: center;justify-content:center;background:#FFFFFF;">
-							<button type="submit" style="width:100%;height:100%;outline:none;border:none;background:none;"><span style="font-family:Arimo;font-size:17px;font-weight:bold;color:#268FA5;outline:none;background:transparent;border:none;">Next</span></button></form>
+							<button type="submit" style="width:100%;height:100%;outline:none;border:none;background:none;"><span style="font-family:Arimo;font-size:17px;font-weight:bold;color:#268FA5;outline:none;background:transparent;border:none;">Login</span></button></form>
 					</div>
 					
 					<!-- 

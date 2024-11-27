@@ -1,11 +1,7 @@
 <?php
 session_start(); // Start session at the top
-if(!isset($patientid)){
-	$patientid=$_SESSION['patientid'];
-}
-if(!isset($patientid)){
-	$patientid=$_GET['patientid'];	
-}
+$_SESSION['patientid']=1;
+// Check if patientid is set in the session
 if (!isset($_SESSION['patientid'])) {
     die("Error: Patient ID not found in session. Please log in.");
 }
@@ -27,7 +23,7 @@ if (!isset($_SESSION['patientid'])) {
             padding: 0;
             height: 100vh;
             display: flex;
-           overflow-x:hidden;
+           overflow:hidden;
 		    background:#F5F6F8;
         }
 		span{
@@ -273,48 +269,20 @@ margin-left:0px;
 	
 }
 .patientcontainer{
-	width:30%;
-	height:80%;
+	width:467px;
+	height:400px;
 	position:absolute;
 	background:#FFFFFF;
-	border-radius:7px;
-	left:240px;
-	top:150px;
+	border-radius:10px;
+	left:150px;
+	top:180px;
 	
-	
+	box-shadow: 1px 1px #ABABAB;
+	transform:scale(1.5);
 }
-
-.patientcontainer2 {
-    margin-top: 20px;
-    width: 400px; /* Fixed width */
-    height: 600px; /* Fixed height */
-    position: absolute;
-    background: #FFFFFF;
-    border-radius: 10px;
-    left: 150px;
-    top: 180px;
-    box-shadow: 1px 1px #ABABAB;
-    transform: scale(1.5);
-    display: inline-block;
-    overflow-y: auto; /* Adds a vertical scrollbar if content exceeds the height */
-    overflow-x: hidden; /* Prevents horizontal scrolling */
-	padding-right:40px;
-}
-
-
-
-
-.flexcontainernoline{
-	display:flex;
-margin-top:15px;
-margin-bottom:10px;
-}
-
-.flexcontainernoline span{
-	font-family:Roboto;
-	font-size:12px;
-	font-weight:bold;
-
+.flexcontainer{
+display:flex;
+margin-top:13px;
 }
 .flexcontainer1{
 display:flex;
@@ -323,6 +291,13 @@ display:flex;
 	width:16px;
 	height:16px;
 	position:relative;
+}
+.b{
+	font-family:Roboto;
+	font-size:12px;
+	font-weight:bold;
+	margin-left:42px;
+	width:183px;
 }
 .flexcontainergrey{
 display:flex;
@@ -334,44 +309,33 @@ font-size:11px;
 font-weight:bold;
 color:#969696;
 }
+.flexcontainer span{
+	font-family:Roboto;
+	font-size:12px;
+	border-bottom:1px;
+	width:183px;
+border-left:0px;
+border-top:0px;
+border-right:0px;
 
-.flexcontainernoline input{
-font-family:Roboto;
-font-size:11px;
-font-weight:bold;
-
-outline:none;
-border:none;
+border-color:white;
+border-style:solid;
 }
-.leftalign{
-	margin-left:34px;
-	width:193px;
-}
-.aligninput{
-width:188px;
-margin-left:35px;
-}
-.align{
-width:193px;
-margin-left:35px;
-}
-.patientcontainer3 {
-    width: 369px; /* Fixed width */
-    min-height: 272px; /* Minimum height of the container */
-    position: absolute;
-    background: #FFFFFF;
-    border-radius: 10px;
+input{
+	width:45%;
+	height:20%;
+	font-size:10px;
+	outline:none;
+	margin-bottom:4px;
 	
-    left: 850px;
-    top: 160px;
-    box-shadow: 1px 1px #ABABAB;
-    transform: scale(1.5);
-    display: inline-block; /* Ensures height adjusts to content */
-    overflow: visible; /* Allow the container to grow as needed */
+
 }
     </style>
 </head>
 <body>
+<?php
+$_GET['id'] = 1;
+ include 'editteeth.php'; ?>
     <div class="left-container">
         <img src="goldenlogo.png" style="width:24px; height:24px; display:block; margin:14px auto 0;">
 		<span class="logotext" style="margin-top:2px;">GOLDEN DENTAL</span>
@@ -398,130 +362,58 @@ margin-left:35px;
 																<div style="display:inline-block;
 																width:24.5%;height:72px;margin-left:25px;"><span style="													
 																color:#248AA2;font-family: Anton;font-size: 25px;font-style: normal;font-weight: 400;line-height: normal;
-																												">Patients>Patient Records>Treatment History</span>
+																												">Patients>Patient Records>Personal Information</span>
 																										</div>
 																										<div style="display:inline-block;height:72px;width:74.05%;"></div>					
 															</div>
 															
 															
 																				<!-- -->
-															<form method="POST" action="treatmentsave.php">
-															<div class="patientcontainer2">
-																<div class="flexcontainer1">
-																	<span style="font-family:Roboto;font-size:15px;font-weight:bold; margin-left:33px;margin-top:34px;margin-bottom:15px;">Treatment History</span>
-																	<img src="diag.png" class="smallicons" style="margin-top:34px;margin-left:8px;">
-																	<button type="button" onclick="location.reload();" style="font-family:Roboto;font-size:11px;font-weight:bold;color:#BEBBBB;margin-top:10px; margin-left:100px;background:none;outline:none;border:none;">Undo</button>
-																	<button type="button" onclick="location.reload();" style="font-family:Roboto;font-size:11px;font-weight:bold;color:#BEBBBB;margin-top:10px; margin-left:-10px;background:none;outline:none;border:none;">changes</button>
-																	<button style="font-family:Roboto;font-size:11px;font-weight:bold;color:#BEBBBB;margin-top:10px; margin-left:20px;margin-right:10px;background:none;outline:none;border:none;color:#248AA2;">Save</button>
-																</div>
-																
-																<div class="flexcontainergrey" style="border-top: 0px; border-right: 0px; border-bottom: 1px solid #D3D3D3; border-left: 0px;padding-bottom:9px;">
-																	<span class="leftalign">Name</span><span>Date(mdy)</span>
-																</div>
-																
-																<?php
-																// Database connection details
-																$dbHost = "localhost";
-																$dbUser = "root";
-																$dbPass = "";
-																$dbName = "dbdental";
-
-																// Establish database connection
-																$databaseConnection = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
-
-																// Check connection status
-																if ($databaseConnection->connect_error) {
-																	die("Connection failed: " . $databaseConnection->connect_error);
-																}
-
-																// Fetch treatment records for a specific patient (replace 1 with dynamic patient ID as needed)
-																$targetPatientId = 1; // Example patient ID
-																$treatmentQuery = "SELECT `treatmentID`, `treatmentName`, `treatmentDate`, `patientid` FROM `treatment` WHERE 1";
-																$treatmentResults = $databaseConnection->query($treatmentQuery);
-
-																// Display fetched treatments
-																if ($treatmentResults->num_rows > 0) {
-																	while ($treatmentRecord = $treatmentResults->fetch_assoc()) {
-																		echo '<div class="flexcontainernoline" id="treatment_' . $treatmentRecord['treatmentID'] . '">';
-																		echo '<input class="aligninput" type="text" name="treatmentName[' . $treatmentRecord['treatmentID'] . ']" value="' . htmlspecialchars($treatmentRecord['treatmentName']) . '" maxlength="30" oninput="validateInput(event)">';
-																		echo '<input type="date" name="treatmentDate[' . $treatmentRecord['treatmentID'] . ']" value="' . htmlspecialchars($treatmentRecord['treatmentDate']) . '">';
-																		echo '<span class="delete-icon" style="margin-left:17px;cursor: pointer; color: red;" onclick="deleteTreatment(' . $treatmentRecord['treatmentID'] . ')">&#10006;</span>'; // Delete icon (×)
-																		echo '</div>';
-																	}
-																} else {
-																	echo "<p>No treatment records found for patient ID $targetPatientId.</p>";
-																}
-
-																// Close the database connection
-																$databaseConnection->close();
-																?>
-
-															</div>
-														</form>
-
-														<script>
-														// Function to restrict special characters
-														function validateInput(event) {
-															const regex = /^[a-zA-Z0-9\s]*$/; // Allows only alphanumeric characters and spaces
-															if (!regex.test(event.target.value)) {
-																event.target.value = event.target.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Removes special characters
-															}
-														}
-
-														// Function to delete the treatment field from the database after confirmation
-														function deleteTreatment(treatmentId) {
-															// Show confirmation dialog
-															const confirmDelete = confirm("Are you sure you want to delete this treatment?");
-															if (!confirmDelete) {
-																return; // Exit if the user cancels the confirmation
-															}
-
-															// Send AJAX request to delete the treatment from the database
-															const xhr = new XMLHttpRequest();
-															xhr.open('POST', 'delete_treatment.php', true);
-															xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-															xhr.onload = function () {
-																if (xhr.status === 200) {
-																	console.log(xhr.responseText); // Log server response
-																	if (xhr.responseText === "Success") {
-																		const treatmentDiv = document.getElementById('treatment_' + treatmentId);
-																		if (treatmentDiv) {
-																			treatmentDiv.remove();
-																		}
-																	} else {
-																		alert('Error deleting treatment: ' + xhr.responseText);
-																	}
-																} else {
-																	alert('Error sending AJAX request');
-																}
-															};
-															xhr.send('treatment_id=' + treatmentId); // Send the treatment_id to the server
-														}
-														</script>
-
-																						<form method="POST" action="submit_treatment.php">
-																						<div class="patientcontainer3">
-																							<div class="flexcontainer1">
-																								<span style="font-family:Roboto;font-size:15px;font-weight:bold; margin-left:33px;margin-top:34px;margin-bottom:15px;">
-																									Create New Treatment
-																								</span>
-																								<button type="submit" style="font-family:Roboto;font-size:11px;font-weight:bold;color:#BEBBBB;margin-top:10px; margin-left:110px;background:none;outline:none;border:none;color:red;">
-																									Submit
-																								</button>
-																							</div>
-																							<div style="margin-left:30px;margin-top:40px;">
-																								<span>Name</span>
-																								<br>
-																								<input type="text" id="treatmentName" name="treatmentName" maxlength="30" required 
-																									pattern="^[A-Za-z0-9\s]+$" title="Only alphanumeric characters and spaces are allowed">
-																								<br><br>
-																								<span>Date</span>
-																								<br>
-																								<input type="date" name="treatmentDate" required>
-																							</div>
-																						</div>
-																					</form>
-
+																				<?php if ($patient): ?>
+															<div class="patientcontainer">
+      <div class="flexcontainer1">
+        <span style="font-family:Roboto;font-size:15px;font-weight:bold; margin-left:42px;margin-top:34px;margin-bottom:15px;">Personal Information</span>
+		<form action="information_submit.php" method="POST">
+        <img src="info.png" class="smallicons" style="margin-top:34px;margin-left:8px;">
+        <span class="edit-btn" style="font-family:Roboto;font-size:11px;font-weight:bold;color:#BEBBBB;margin-top:37px; margin-left:185px; cursor: pointer;"><button style="background:none;border:none;color:#BEBBBB;font-family:Roboto;font-size:11px;font-weight:bold;">Save</button></span>
+        
+      </div>
+      <div class="flexcontainer">
+        <span class="b">Patient First Name</span>
+        <input type="text" value="<?php echo htmlspecialchars($patient['firstName']); ?>" name="firstName"> 
+      </div>
+	   <div class="flexcontainer">
+        <span class="b">Patient Middle Name</span>
+        <input type="text" value="<?php echo htmlspecialchars($patient['middleName']); ?>" name="middleName"> 
+      </div>
+	   <div class="flexcontainer">
+        <span class="b">Patient Last Name</span>
+        <input type="text" value="<?php echo htmlspecialchars($patient['lastName']); ?>" name="lastName"> 
+      </div>
+      <div class="flexcontainer">
+        <span class="b">Patient ID</span>
+        <span class="patientID">P-<?php echo htmlspecialchars($patient['id']); ?></span>
+      </div>
+      <div class="flexcontainer">
+        <span class="b">Sex</span>
+        <span><?php echo htmlspecialchars($patient['sex']); ?>
+      </div>
+      <div class="flexcontainer">
+        <span class="b">Birthdate</span>
+        <input type="date" style="padding-right:3px;" value="<?php echo htmlspecialchars($patient['birthdate']); ?>" name="birthdate">
+      </div>
+      <div class="flexcontainer">
+        <span class="b">Email</span>
+        <input type="email"  value="<?php echo htmlspecialchars($patient['email']); ?>" name="email" id="emailInput" pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$" required>
+      </div>    
+      <div class="flexcontainer">
+        <span class="b">Contact Number</span>
+        <input type="number" value="09<?php echo htmlspecialchars($patient['contactNumber']); ?>" name="contactNumber" >
+      </div>
+	  </form>
+    </div>
+ <?php else: ?>
+  <?php endif; ?>
 
 
 

@@ -1,7 +1,12 @@
 <?php
 session_start(); // Start session at the top
-$_SESSION['patientid']=1;
-// Check if patientid is set in the session
+
+if(!isset($patientid)){
+	$patientid=$_SESSION['patientid'];
+}
+if(!isset($patientid)){
+	$patientid=$_GET['patientid'];	
+}
 if (!isset($_SESSION['patientid'])) {
     die("Error: Patient ID not found in session. Please log in.");
 }
@@ -24,6 +29,7 @@ if (!isset($_SESSION['patientid'])) {
             height: 100vh;
             display: flex;
            overflow-x:hidden;
+		    background:#F5F6F8;
         }
 		span{
 		margin:0;

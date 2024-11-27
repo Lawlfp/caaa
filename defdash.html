@@ -4,19 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Split Centered Container</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anton:wght@400;700&display=swap');
 		@import url('https://fonts.googleapis.com/css2?family=Content:wght@400;700&display=swap');
 		@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
-		@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
         body {
             margin: 0;
             padding: 0;
             height: 100vh;
             display: flex;
-            overflow: hidden;
+           overflow:hidden;
         }
 		span{
 		margin:0;
@@ -31,7 +29,9 @@
     display: flex;
     flex-direction: column; /* Stack items vertically */
     align-items: center; /* Center items horizontally */
-    
+    position:fixed;
+	overflow:hidden;
+	
     color: white; /* Text color for better visibility */
 }
 		.picture{
@@ -43,34 +43,63 @@ background: url(<path-to-image>), lightgray 50% / cover no-repeat;
 		}
 		
 		.pictext1{
-		color: #FFF;text-align: center;font-family: Amiri;font-size: 20px;font-style: normal;font-weight: normal;line-height: normal;margin-top:6px;
+		color: #FFF;
+text-align: center;
+font-family: Amiri;
+font-size: 20px;
+font-style: normal;
+font-weight: normal;
+line-height: normal;
+margin-top:6px;
 		}
 		.pictext2{
-		color: #FFF;text-align: center;font-family: Amiri;font-size: 15px;font-style: normal;margin-top:-12px;line-height: normal;
+		color: #FFF;
+text-align: center;
+font-family: Amiri;
+font-size: 15px;
+font-style: normal;
+margin-top:-12px;
+line-height: normal;
 		}
         .right-container {
-            width: 89.3%;
-            height: 100%;
+            width: 100%;
+            
             display: flex;
             flex-direction: column; /* Stack top and bottom sections vertically */
+			
         }
         .top-section {
-
-            height:	9.1%;	background: linear-gradient(to right, #0C3C68, #2DA6B6);     z-index: 1;    display: flex;            align-items: center;            justify-content: center;
+			width:100%;
+			position:fixed;
+            height:	9.1%;	
+            background: linear-gradient(to right, #0C3C68, #2DA6B6);
+			
+            z-index: 1; /* Send the top section to the back */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .bottom-section {
              display: flex;
   flex-direction: row; /* Default: left to right */
             background-color: white;
-            height:90.9%;
+            
         }
 
 		
 		.logotext{
-		color: #FFF;text-align: center;font-family: Anton;font-size: 20px;font-style: normal;font-weight: 400;line-height: normal;margin-top: -1px;
+		color: #FFF;
+text-align: center;
+font-family: Anton;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+margin-top: -1px;
 		}
 		
+
 		.margintop {
 			margin-top:20px;
 			width:100%;
@@ -78,6 +107,8 @@ background: url(<path-to-image>), lightgray 50% / cover no-repeat;
         }
         
 
+        
+		
 		hr{
 		background-color:white;
 		width:76%;
@@ -224,105 +255,16 @@ margin-left:0px;
     flex-direction: row;
 	
 }
-
-.filter{
-	width:77px;
-	height:32px;
+.patientcontainer{
+	width:30%;
+	height:80%;
 	position:absolute;
-	top:170px;
-	left:240px;
-	border:none;
 	background:#FFFFFF;
 	border-radius:7px;
-	box-shadow: 2px 1px 0px rgba(0, 0, 0, 0.15);
-	display: flex;
-  align-items: center; 
-  justify-content: flex-start; /* Aligns items to the left */
-	font-family:Amiri;
-	font-size:13px;
-	font-weight:bold;
-}
-
-.search {
-  width: 100%;position: relative;  display: flex;
-}
-
-.searchTerm {
-  width: 100%;  border: 3px solid #00B4CC;  border-right: none;  padding: 5px;  height: 16px;  border-radius: 5px 0 0 5px;  outline: none;  color: #9DBFAF;
-  }
-
-.searchTerm:focus{
-  color: #00B4CC;
-}
-
-.searchButton {
-  width: 40px;  height: 32px;  border: 1px solid #00B4CC;  background: #00B4CC;  text-align: center;  color: #fff;  border-radius: 0 5px 5px 0;  cursor: pointer;  font-size: 20px;
-  }
-
-/*Resize the wrap to see the search bar change!*/
-.wrap{
-  width: 20%;  position: absolute;  top: 19.6%;  left:27.8%;  transform: translate(-50%, -50%);
-}
-.addpatientimg{
-	width:16px;
-	height:16px;
-}
-.grey{
-	width:900px;
-	height:22px;
-	border-radius:6px;
-	background:#F3F4F8;
-	border:#EFEFEF 1px solid;
-	position:absolute;
-	top:232px;
-	left:228px;
+	left:240px;
+	top:150px;
 	
-}
-.heads{
-	font-family:Roboto;
-	font-size:10px;
-	font-weight:bold;
 	
-}
-.data{
-	height:60px;
-	width:900px;
-	border-bottom:1px;border-top:0px;border-right:0px;border-left:0px;border-color:#D3D3D3;
-	border-style:solid;
-	position:absolute;
-	top:258px;
-	left:228px;	
-	display: flex;
-    align-items: center;
-	
-}
-.datapic{
-width: 36px;
-height: 36px;
-border-radius: 36px;
-background: url(samplepic.png), lightgray 50% / cover no-repeat;
-position: relative; 
-margin-left:20px;
- transform: translateY(-5%);
-}
-.dataname{
-	font-family:Roboto;
-	font-size:10px;
-	font-weight:bold;
-	margin-left:18px;	
-}
-.dataname1{
-	font-family:Roboto;
-	font-size:8px;
-	font-weight:bold;
-	margin-left:18px;	
-	color:#7C7E8E;
-	
-}
-.text-container{
-display: flex;
-    flex-direction: column; /* Stack text vertically */
-    margin-left: 0px;
 }
 
 
@@ -355,41 +297,28 @@ display: flex;
 																<div style="display:inline-block;;
 																width:14.5%;height:72px;margin-left:25px;"><span style="													
 																color:#248AA2;font-family: Anton;font-size: 25px;font-style: normal;font-weight: 400;line-height: normal;
-																												">Patients</span>
+																												">Patientsasdasd</span>
 																										</div>
 																										<div style="display:inline-block;height:72px;width:84.05%;"></div>					
 															</div>
-															<button class="filter"><img src="filter.png" style="width:18px;height:18px;position: relative;margin-right:5px;">Filters</button> 
+															
 															
 																				<!-- -->
-																				<!-- -->
-															<form>
-																<div class="wrap">
-																   <div class="search">
-																	  <input type="text" class="searchTerm" placeholder="Search Patient">
-																	  <button type="submit" class="searchButton">
-																		<i class="fa fa-search"></i>
-																	 </button>
-																   </div>
-																</div>	
-
-															</form>						
-															<a href="" style="width:121px; height:30px; border-radius:8px; border: 1px solid #4182F1; text-align:left; text-decoration:none; position:absolute; top:169px; left:988px; display:flex; align-items:center; font-size:13px;font-weight:bold;font-size:Amiri;color:#4182F1;">
-																<img src="add.png" class="addpatientimg" style="margin-left:16px;margin-right:6px;">Add Patient
-															</a>
-															<div class="grey"><span class="heads" style="margin-right:219px;margin-left:23px;">NAME</span><span class="heads" style="margin-right:151px;">ID</span><span class="heads" style="margin-right:95px;">LAST VISIT(y/d/m)</span><span class="heads">LAST DIAGNOSIS</span></div>
-															<div class="data"><div class="datapic"></div>
-																										<div class="text-container">
-																										<span class="dataname">John J. Doe</span><span class="dataname1">Next Appointment : 11 Dec - 8:00 AM </span></div>
-																										<span style="font-family:Roboto;font-size:10px;margin-left:64px;">P-0273</span>
-																										<span style="font-family:Roboto;font-size:10px;margin-left:128px;">11/12/24</span>
-																										<span style="font-family:Roboto;font-size:10px;font-weight:bold;margin-left:138px;">Gingivitis</span>
-																										<span style="font-family:Roboto;font-size:10px;font-weight:bold;margin-left:152px;color:#0046C4">Profile</span>
-																										<span style="margin-left:15px;color:#D3D3D3;font:size:1px;">|</span>
-																										<button style="outline:none;border:none;background:none; margin-left:5px;"><img src="ellip.png" style="width:20px;height:20px;"></button>
-																										</div>
-																										
-																										
+															<div class="box2">
+																<a href=""><span class="text">PATIENTS</span>
+																<span class="text2">11</span></a>
+																<div class="ellipse-wrapper">
+																	<div class="ellipse-2">
+																	<a href="" class="ellipse-link">
+																	<img src="but2.png" class="ellipse-img"></div></a>
+																</div>
+															</div>					
+															<div class="patientcontainer"></div>
+																					
+															<div style="height:2000px;"></div>
+																				
+										
+										
 				</div>							
 			</div>
             </div>
